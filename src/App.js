@@ -1,10 +1,18 @@
 import './App.css';
+
 import { useRef, useEffect, useState } from 'react';
 import { generateRandomColors, pickColor } from './helpers';
+
+import useSound from 'use-sound';
+import success from './assets/success.mp3';
+import failure from './assets/failure.mp3';
 
 function App() {
     const squares = useRef([]);
     const header = useRef(null);
+
+    const [successSound] = useSound(success);
+    const [failureSound] = useSound(failure);
 
     const [numSquares, setNumSquares] = useState(6);
     const [isHardMode, setIsHardMode] = useState(true);
@@ -84,9 +92,11 @@ function App() {
             changeColors(clickedColor);
             header.current.style.backgroundColor = clickedColor;
             setResetBtnText('Play Again!');
+            successSound();
         } else {
             squares.current[i].style.background = '#494b4f';
             setMessageText('Try Again');
+            failureSound();
         }
     };
 
